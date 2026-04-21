@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c2c 0%, #2a4a35 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    text-align: center;
+    color: #ffd700;
+    margin-bottom: 20px;
+}
+
+.score-board {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+}
+
+.score-board span {
+    color: #ffd700;
+    font-size: 24px;
+}
+
+.game-field {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(4, 100px);
+    gap: 10px;
+    background: #8b6914;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hole {
+    background: radial-gradient(circle at 30% 30%, #4a2a0a, #2a1a05);
+    border-radius: 50%;
+    cursor: none;
+    transition: transform 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hole:hover {
+    transform: scale(1.05);
+}
+
+.goblin {
+    width: 80px;
+    height: 80px;
+    cursor: none;
+    animation: popUp 0.2s ease-out;
+}
+
+@keyframes popUp {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.custom-cursor {
+    width: 64px;
+    height: 64px;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s ease;
+}
+
+.custom-cursor img {
+    width: 100%;
+    height: 100%;
+}
+
+.game-over {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+}
+
+.game-over h2 {
+    color: #ff4444;
+    margin-bottom: 15px;
+}
+
+#restart-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #ffd700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#restart-btn:hover {
+    background: #ffaa00;
+}
+
+@media (max-width: 500px) {
+    .game-field {
+        grid-template-columns: repeat(4, 60px);
+        grid-template-rows: repeat(4, 60px);
+        gap: 8px;
+        padding: 10px;
+    }
+    .goblin {
+        width: 50px;
+        height: 50px;
+    }
+    .custom-cursor {
+        width: 48px;
+        height: 48px;
+    }
+}
