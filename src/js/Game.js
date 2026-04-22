@@ -10,7 +10,7 @@ export default class Game {
         this.score = new Score();
         this.cursor = new Cursor();
         this.isRunning = true;
-        this.currentTimeout = null;
+        this.gameInterval = null;
         
         this.init();
     }
@@ -27,47 +27,52 @@ export default class Game {
             restartBtn.addEventListener('click', () => this.restart());
         }
         
-        this.startRound();
+        this.startGame();
     }
     
-    startRound() {
-        if (!this.isRunning) return;
-        
+    startGame() {
+        this.isRunning = true;
         this.board.showGoblin();
         
-        this.currentTimeout = setTimeout(() => {
-            if (this.isRunning && this.board.isGoblinVisible()) {
+        this.gameInterval = setInterval(() => {
+            if (!this.isRunning) return;
+            
+            if (this.board.isGoblinVisible()) {
                 this.missGoblin();
+            } else {
+                this.board.showGoblin();
             }
         }, 1000);
+    }
+    
+    stopGame() {
+        this.isRunning = false;
+        if (this.gameInterval) {
+            clearInterval(this.gameInterval);
+            this.gameInterval = null;
+        }
     }
     
     hitGoblin() {
         if (!this.isRunning) return;
         
-        clearTimeout(this.currentTimeout);
         this.score.addPoint();
         this.board.hideGoblin();
-        this.startRound();
     }
     
     missGoblin() {
         if (!this.isRunning) return;
         
-        clearTimeout(this.currentTimeout);
         this.score.addMiss();
         this.board.hideGoblin();
         
         if (this.score.getMisses() >= Game.MAX_MISSES) {
             this.gameOver();
-        } else {
-            this.startRound();
         }
     }
     
     gameOver() {
-        this.isRunning = false;
-        clearTimeout(this.currentTimeout);
+        this.stopGame();
         this.board.hideGoblin();
         
         const gameOverDiv = document.getElementById('game-over');
@@ -77,7 +82,7 @@ export default class Game {
     }
     
     restart() {
-        this.isRunning = true;
+        this.stopGame();
         this.score.reset();
         this.board.hideGoblin();
         
@@ -86,6 +91,6 @@ export default class Game {
             gameOverDiv.style.display = 'none';
         }
         
-        this.startRound();
+        this.startGame();
     }
 }
